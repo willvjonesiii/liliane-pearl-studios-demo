@@ -12,11 +12,11 @@
 
     :root {
       --ink:          #f5f1e8;
-      --dark:         #ede8dc;
-      --card:         #e4ddd2;
-      --border:       #c8bfb4;
+      --dark:         #dbd3c5;
+      --card:         #cfc7b9;
+      --border:       #a89e90;
       --cream:        #2a2218;
-      --muted:        #7a6e62;
+      --muted:        #6b6258;
       --accent:       #6ab2d0;
       --accent-light: #90cfe3;
       --accent-dim:   #3a7a96;
@@ -68,8 +68,9 @@
     /* ── BUTTONS ── */
     .btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent); color: var(--ink); padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
     .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid rgba(250,248,244,0.45); color: #faf8f4; background: transparent; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); color: var(--cream); background: transparent; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero .btn-ghost, .inner-hero .btn-ghost { border-color: rgba(250,248,244,0.5); color: #faf8f4; }
 
     /* ── HERO (home) ── */
     .hero { position: relative; min-height: 100dvh; display: flex; align-items: flex-end; padding: clamp(4rem,10vw,8rem) clamp(1.5rem,5vw,4rem) clamp(4rem,8vw,7rem); overflow: hidden; }
