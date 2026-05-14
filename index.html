@@ -11,12 +11,12 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ink:          #0e0c0a;
-      --dark:         #141210;
-      --card:         #1c1814;
-      --border:       #2a2420;
-      --cream:        #f0ebe0;
-      --muted:        #9a9080;
+      --ink:          #f5f1e8;
+      --dark:         #ede8dc;
+      --card:         #e4ddd2;
+      --border:       #c8bfb4;
+      --cream:        #2a2218;
+      --muted:        #7a6e62;
       --accent:       #6ab2d0;
       --accent-light: #90cfe3;
       --accent-dim:   #3a7a96;
@@ -42,16 +42,19 @@
       transition: background 0.4s, padding 0.4s, border-color 0.4s;
       border-bottom: 1px solid transparent;
     }
-    .nav.scrolled { background: rgba(14,12,10,0.96); backdrop-filter: blur(14px); padding: 1rem 2.5rem; border-bottom-color: var(--border); }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em; color: var(--white); text-decoration: none; cursor: pointer; }
+    .nav.scrolled { background: rgba(245,241,232,0.97); backdrop-filter: blur(14px); padding: 1rem 2.5rem; border-bottom-color: var(--border); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em; color: #faf8f4; text-decoration: none; cursor: pointer; }
+    .nav.scrolled .nav-logo { color: var(--cream); }
     .nav-logo em { color: var(--accent); }
     .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-    .nav-links a { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(240,235,224,0.75); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .nav-links a { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,248,244,0.82); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .nav.scrolled .nav-links a { color: rgba(42,34,24,0.72); }
     .nav-links a:hover { color: var(--accent); }
-    .nav-cta { background: var(--accent) !important; color: var(--ink) !important; padding: 0.5rem 1.4rem !important; font-weight: 500 !important; white-space: nowrap; flex-shrink: 0; }
+    .nav-cta { background: var(--accent) !important; color: #0e0c0a !important; padding: 0.5rem 1.4rem !important; font-weight: 500 !important; white-space: nowrap; flex-shrink: 0; }
     .nav-cta:hover { background: var(--accent-light) !important; }
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--cream); }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: #faf8f4; }
+    .nav.scrolled .hamburger span { background: var(--cream); }
     .mob-menu { display: none; position: fixed; inset: 0; background: var(--ink); z-index: 300; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
     .mob-menu.open { display: flex; }
     .mob-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--cream); text-decoration: none; transition: color 0.2s; cursor: pointer; }
@@ -65,7 +68,7 @@
     /* ── BUTTONS ── */
     .btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent); color: var(--ink); padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
     .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid rgba(240,235,224,0.35); color: var(--cream); background: transparent; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid rgba(250,248,244,0.45); color: #faf8f4; background: transparent; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── HERO (home) ── */
@@ -93,7 +96,7 @@
     /* ── MARQUEE ── */
     .marquee-bar { background: var(--accent); padding: 0.72rem 0; overflow: hidden; white-space: nowrap; }
     .marquee-track { display: inline-flex; animation: ticker 28s linear infinite; }
-    .marquee-track span { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink); padding: 0 1.25rem; }
+    .marquee-track span { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: #0e0c0a; padding: 0 1.25rem; }
     @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* ── SECTIONS ── */
@@ -122,7 +125,7 @@
     .split-panel { padding: clamp(3rem,7vw,6rem) clamp(2rem,5vw,4rem); display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; }
     .split-panel.dark { background: var(--dark); }
     .split-panel.blue { background: var(--accent); }
-    .split-panel.blue h3, .split-panel.blue .eyebrow { color: var(--ink); }
+    .split-panel.blue h3, .split-panel.blue .eyebrow { color: #0e0c0a; }
     .split-panel.blue .eyebrow { opacity: 0.7; }
     .split-panel.blue p { color: rgba(14,12,10,0.72); }
     .split-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 400; line-height: 1.15; }
@@ -136,17 +139,17 @@
     .piano-card:hover { background: var(--card); }
     .piano-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 0.75rem; transition: color 0.3s; }
     .piano-card:hover .piano-num { color: rgba(106,178,208,0.2); }
-    .piano-card h3 { font-size: 1.6rem; font-weight: 400; color: var(--white); margin-bottom: 0.5rem; }
+    .piano-card h3 { font-size: 1.6rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
     .piano-card .level-tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; display: block; }
     .piano-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
 
     /* ── TUITION BOX ── */
     .tuition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
     .tuition-option { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 2.5rem; }
-    .tuition-option h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--white); margin-bottom: 0.5rem; }
+    .tuition-option h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
     .tuition-price { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--accent); line-height: 1; margin: 0.75rem 0 0.5rem; }
     .tuition-option p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
-    .tuition-badge { display: inline-block; background: var(--accent); color: var(--ink); font-size: 0.62rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.75rem; margin-bottom: 0.5rem; }
+    .tuition-badge { display: inline-block; background: var(--accent); color: #0e0c0a; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.75rem; margin-bottom: 0.5rem; }
 
     /* ── CTA BAND ── */
     .cta-band { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem); text-align: center; }
@@ -210,7 +213,7 @@
     .res-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 1.5rem; }
     .res-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
     .res-card:hover { border-color: var(--accent); background: rgba(106,178,208,0.04); }
-    .res-card h4 { font-size: 1.25rem; font-weight: 400; margin-bottom: 0.5rem; color: var(--white); }
+    .res-card h4 { font-size: 1.25rem; font-weight: 400; margin-bottom: 0.5rem; color: var(--cream); }
     .res-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
     .res-arrow { display: inline-block; margin-top: 1rem; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); text-decoration: none; }
 
