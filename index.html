@@ -126,7 +126,7 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .hero h1 { font-size: clamp(2.4rem,5.5vw,5rem); font-weight: 400; color: var(--white); margin: 0.6rem 0 1.2rem; line-height: 1.2; }
     .hero-dc { font-size: clamp(0.7rem,1.2vw,0.85rem); font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.9rem; display: block; }
-    .live-badge { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0.45rem 1rem 0.45rem 0.75rem; border-radius: 999px; margin-bottom: 1.5rem; }
+    .live-badge { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); padding: 0.45rem 1rem 0.45rem 0.75rem; border-radius: 999px; position: absolute; top: clamp(5rem,9vw,7rem); right: clamp(2rem,5vw,4rem); }
     .live-badge-dot { position: relative; width: 9px; height: 9px; flex-shrink: 0; }
     .live-badge-dot span { display: block; width: 9px; height: 9px; border-radius: 50%; background: #4ade80; }
     .live-badge-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid rgba(74,222,128,0.55); animation: livePulse 2s ease-in-out infinite; }
@@ -356,13 +356,12 @@
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
+    <div class="live-badge">
+      <span class="live-badge-dot"><span></span></span>
+      <span class="live-badge-text">Now Accepting Students</span>
+    </div>
     <div class="hero-content">
-      <div class="live-badge">
-        <span class="live-badge-dot"><span></span></span>
-        <span class="live-badge-text">Now Accepting Students</span>
-      </div>
-      <p class="eyebrow">Liliane Pearl Studios &nbsp;·&nbsp; Private Piano Lessons</p>
-      <span class="hero-dc">Washington, DC</span>
+      <p class="eyebrow">Washington, DC</p>
       <h1>Registration is Open<br>for <em>2025–2026!</em></h1>
       <p class="hero-sub">Registration's open now through August 5th...grab your note-worthy spot!</p>
       <div class="hero-btns">
@@ -393,11 +392,6 @@
     </div>
   </div>
 
-  <!-- QUOTE -->
-  <div class="quote-band">
-    <blockquote class="rv">"The piano keys are black and white but they sound like a million <em>colors in your soul.</em>"</blockquote>
-  </div>
-
   <!-- MEET LILIANE -->
   <section class="section" style="background:var(--dark);">
     <div class="section-inner">
@@ -416,6 +410,11 @@
       </div>
     </div>
   </section>
+
+  <!-- QUOTE -->
+  <div class="quote-band">
+    <blockquote class="rv">"The piano keys are black and white but they sound like a million <em>colors in your soul.</em>"</blockquote>
+  </div>
 
   <!-- PIANO PROGRAM -->
   <section class="section">
