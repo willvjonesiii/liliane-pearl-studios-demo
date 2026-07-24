@@ -132,7 +132,11 @@
 
     /* ── INNER PAGE HERO (with image) ── */
     .inner-hero { position: relative; min-height: 55vh; display: flex; align-items: flex-end; padding: clamp(6rem,12vw,10rem) clamp(1.5rem,5vw,4rem) clamp(3rem,5vw,4rem); overflow: hidden; border-bottom: 1px solid var(--border); }
-    .inner-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    @keyframes kenBurns { 0% { transform: scale(1.0); } 100% { transform: scale(1.08); } }
+    .inner-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; animation: kenBurns 20s ease-in-out infinite alternate; will-change: transform; transform-origin: center center; }
+    .page-photo-band { width: 100%; height: 420px; overflow: hidden; position: relative; }
+    .page-photo-band img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
+    .page-photo-band:hover img { transform: scale(1.02); }
     .inner-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,10,0.95) 0%, rgba(14,12,10,0.6) 50%, rgba(14,12,10,0.3) 100%); }
     .inner-hero-content { position: relative; z-index: 2; max-width: 1200px; width: 100%; }
     .inner-hero h1 { font-size: clamp(2.6rem,6vw,5.5rem); font-weight: 300; color: var(--white); margin-top: 0.6rem; }
@@ -377,22 +381,6 @@
     </div>
   </div>
 
-  <!-- ENROLLMENT CALLOUTS -->
-  <div class="split-band">
-    <div class="split-panel dark">
-      <p class="eyebrow rv">Current Students</p>
-      <h3 class="rv">Current Student<br><em>Registration</em></h3>
-      <p class="rv">Enrollment opens July 31st and closes August 5th.</p>
-      <div class="rv"><button class="btn-ghost" onclick="go('students')">Current Students →</button></div>
-    </div>
-    <div class="split-panel blue">
-      <p class="eyebrow rv">New Families</p>
-      <h3 class="rv">Want to Join the<br>Studio <em>Family?</em></h3>
-      <p class="rv">We are here to help students hit the right notes from day one.</p>
-      <div class="rv"><button class="btn-primary" onclick="go('register')" style="background:var(--ink);color:var(--accent-text);">New Student Interest Form →</button></div>
-    </div>
-  </div>
-
   <!-- QUOTE -->
   <div class="quote-band">
     <blockquote class="rv">"Give a person music, and you give them a <em>lifelong voice.</em>"</blockquote>
@@ -455,6 +443,22 @@
     </div>
     <div class="recital-strip-img">
       <img src="LP_Recital-08.jpg" alt="Student performing at Liliane Pearl Studios recital" style="object-position: center 30%;">
+    </div>
+  </div>
+
+  <!-- ENROLLMENT CALLOUTS -->
+  <div class="split-band">
+    <div class="split-panel dark">
+      <p class="eyebrow rv">Current Students</p>
+      <h3 class="rv">Current Student<br><em>Registration</em></h3>
+      <p class="rv">Enrollment opens July 31st and closes August 5th.</p>
+      <div class="rv"><button class="btn-ghost" onclick="go('students')">Current Students →</button></div>
+    </div>
+    <div class="split-panel blue">
+      <p class="eyebrow rv">New Families</p>
+      <h3 class="rv">Want to Join the<br>Studio <em>Family?</em></h3>
+      <p class="rv">We are here to help students hit the right notes from day one.</p>
+      <div class="rv"><button class="btn-primary" onclick="go('register')" style="background:var(--ink);color:var(--accent-text);">New Student Interest Form →</button></div>
     </div>
   </div>
 
@@ -653,6 +657,10 @@
     </div>
   </div></div></div>
 
+  <div class="page-photo-band rv">
+    <img src="LP_Recital-10.jpg" alt="Liliane Pearl with a student at the recital" style="object-position: center 35%;">
+  </div>
+
   <div class="cta-band"><div class="section-inner">
     <p class="eyebrow rv">Ready to Make Treble?</p>
     <h2 class="rv">Register <em>Now!</em></h2>
@@ -728,6 +736,10 @@
       </div>
     </div>
   </div></div>
+
+  <div class="page-photo-band rv">
+    <img src="LP_Recital-08.jpg" alt="Student performing at the piano at a Liliane Pearl Studios recital" style="object-position: center 30%;">
+  </div>
 
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
