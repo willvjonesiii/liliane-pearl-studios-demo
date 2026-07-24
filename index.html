@@ -47,7 +47,7 @@
     ]
   }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -66,11 +66,11 @@
     }
 
     html { scroll-behavior: smooth; }
-    body { background: var(--ink); color: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-    h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.1; }
+    body { background: var(--ink); color: var(--cream); font-family: 'Open Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Merriweather', serif; font-weight: 400; line-height: 1.25; }
 
     .eyebrow {
-      font-family: 'Jost', sans-serif;
+      font-family: 'Open Sans', sans-serif;
       font-size: 0.68rem; font-weight: 500;
       letter-spacing: 0.28em; text-transform: uppercase;
       color: var(--accent-text);
@@ -86,7 +86,7 @@
       border-bottom: 1px solid transparent;
     }
     .nav.scrolled { background: rgba(245,241,232,0.97); backdrop-filter: blur(14px); padding: 1rem 2.5rem; border-bottom-color: var(--border); }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em; color: #faf8f4; text-decoration: none; cursor: pointer; }
+    .nav-logo { font-family: 'Merriweather', serif; font-size: 1.15rem; font-weight: 400; letter-spacing: 0.06em; color: #faf8f4; text-decoration: none; cursor: pointer; }
     .nav.scrolled .nav-logo { color: var(--cream); }
     .nav-logo em { color: var(--accent-light); }
     .nav.scrolled .nav-logo em { color: var(--accent-text); }
@@ -102,7 +102,7 @@
     .nav.scrolled .hamburger span { background: var(--cream); }
     .mob-menu { display: none; position: fixed; inset: 0; background: var(--ink); z-index: 300; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; }
     .mob-menu.open { display: flex; }
-    .mob-menu a { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--cream); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    .mob-menu a { font-family: 'Merriweather', serif; font-size: 2.8rem; font-weight: 300; color: var(--cream); text-decoration: none; transition: color 0.2s; cursor: pointer; }
     .mob-menu a:hover { color: var(--accent-text); }
     .mob-close { position: absolute; top: 1.5rem; right: 2rem; font-size: 1.5rem; color: var(--muted); cursor: pointer; }
 
@@ -111,9 +111,9 @@
     .page.active { display: block; }
 
     /* ── BUTTONS ── */
-    .btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent); color: #0e0c0a; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--accent); color: #0e0c0a; padding: 0.9rem 2.2rem; font-family: 'Open Sans', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; border: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
     .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
-    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); color: var(--cream); background: transparent; padding: 0.9rem 2.2rem; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 0.4rem; border: 1px solid var(--border); color: var(--cream); background: transparent; padding: 0.9rem 2.2rem; font-family: 'Open Sans', sans-serif; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; white-space: nowrap; flex-shrink: 0; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
     .btn-ghost:hover { border-color: var(--accent-text); color: var(--accent-text); }
     .hero .btn-ghost:hover, .inner-hero .btn-ghost:hover { border-color: var(--accent-light); color: var(--accent-light); }
     .hero .btn-ghost, .inner-hero .btn-ghost { border-color: rgba(250,248,244,0.5); color: #faf8f4; }
@@ -125,7 +125,7 @@
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,10,0.95) 0%, rgba(14,12,10,0.55) 45%, rgba(14,12,10,0.18) 100%); }
     .hero-content { position: relative; z-index: 2; max-width: 800px; animation: fadeUp 1.1s ease-out 0.2s both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .hero h1 { font-size: clamp(3.2rem,7.5vw,7rem); font-weight: 300; color: var(--white); margin: 0.6rem 0 1.2rem; line-height: 1.03; }
+    .hero h1 { font-size: clamp(2.4rem,5.5vw,5rem); font-weight: 400; color: var(--white); margin: 0.6rem 0 1.2rem; line-height: 1.2; }
     .hero h1 em { color: var(--accent-light); }
     .hero-sub { font-size: clamp(0.95rem,1.6vw,1.15rem); color: rgba(240,235,224,0.8); max-width: 560px; margin-bottom: 2.5rem; line-height: 1.75; }
     .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
@@ -139,7 +139,7 @@
     .page-photo-band:hover img { transform: scale(1.02); }
     .inner-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,10,0.95) 0%, rgba(14,12,10,0.6) 50%, rgba(14,12,10,0.3) 100%); }
     .inner-hero-content { position: relative; z-index: 2; max-width: 1200px; width: 100%; }
-    .inner-hero h1 { font-size: clamp(2.6rem,6vw,5.5rem); font-weight: 300; color: var(--white); margin-top: 0.6rem; }
+    .inner-hero h1 { font-size: clamp(1.9rem,4vw,3.8rem); font-weight: 400; color: var(--white); margin-top: 0.6rem; }
     .inner-hero h1 em { color: var(--accent-light); }
     .inner-hero p { margin-top: 1.1rem; color: rgba(240,235,224,0.75); max-width: 680px; font-size: 1rem; line-height: 1.75; }
     .inner-hero .update-note { margin-top: 1rem; color: var(--accent-light); font-style: italic; font-size: 0.9rem; }
@@ -154,12 +154,12 @@
     .section { padding: clamp(4rem,10vw,8rem) clamp(1.5rem,5vw,4rem); }
     .section-inner { max-width: 1200px; margin: 0 auto; }
     .section-hd { margin-bottom: clamp(2.5rem,5vw,4rem); }
-    .section-hd h2 { font-size: clamp(2.4rem,5vw,4rem); font-weight: 300; margin-top: 0.6rem; }
+    .section-hd h2 { font-size: clamp(1.7rem,3.5vw,2.8rem); font-weight: 400; margin-top: 0.6rem; }
     .section-hd h2 em { color: var(--accent-text); }
 
     /* ── QUOTE BAND ── */
     .quote-band { padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem); background: #0e0c0a; border-top: none; border-bottom: none; text-align: center; }
-    .quote-band blockquote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,4vw,3.2rem); font-style: italic; font-weight: 300; color: #f0ebe0; max-width: 900px; margin: 0 auto; line-height: 1.35; }
+    .quote-band blockquote { font-family: 'Merriweather', serif; font-size: clamp(1.3rem,2.8vw,2.2rem); font-style: italic; font-weight: 400; color: #f0ebe0; max-width: 900px; margin: 0 auto; line-height: 1.5; }
     .quote-band blockquote em { color: var(--accent-light); }
 
     /* ── ABOUT / FOUNDER ── */
@@ -168,7 +168,7 @@
     .founder-img-wrap img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center 18%; display: block; }
     .about-text h2 { font-size: clamp(2rem,4vw,3.2rem); margin: 0.6rem 0 1.5rem; }
     .about-text h2 em { color: var(--accent-text); }
-    .about-bq { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2rem,2.2vw,1.7rem); font-style: italic; font-weight: 300; color: var(--accent-dim); border-left: 2px solid var(--accent-dim); padding-left: 1.5rem; margin: 1.75rem 0; line-height: 1.45; }
+    .about-bq { font-family: 'Merriweather', serif; font-size: clamp(1rem,1.6vw,1.3rem); font-style: italic; font-weight: 400; color: var(--accent-dim); border-left: 2px solid var(--accent-dim); padding-left: 1.5rem; margin: 1.75rem 0; line-height: 1.6; }
     .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; line-height: 1.8; }
 
     /* ── SPLIT BAND ── */
@@ -179,7 +179,7 @@
     .split-panel.blue h3, .split-panel.blue .eyebrow { color: #0e0c0a; }
     .split-panel.blue .eyebrow { opacity: 0.7; }
     .split-panel.blue p { color: rgba(14,12,10,0.72); }
-    .split-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 400; line-height: 1.15; }
+    .split-panel h3 { font-family: 'Merriweather', serif; font-size: clamp(1.5rem,2.4vw,2.2rem); font-weight: 400; line-height: 1.3; }
     .split-panel h3 em { font-style: italic; color: var(--accent-text); }
     .split-panel.blue h3 em { color: rgba(14,12,10,0.72); }
     .split-panel p { font-size: 0.95rem; line-height: 1.8; color: var(--muted); }
@@ -188,7 +188,7 @@
     .piano-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; background: var(--border); }
     .piano-card { background: var(--dark); padding: 2.75rem 2.25rem; transition: background 0.3s; }
     .piano-card:hover { background: var(--card); }
-    .piano-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 0.75rem; transition: color 0.3s; }
+    .piano-num { font-family: 'Merriweather', serif; font-size: 3.5rem; font-weight: 300; color: var(--border); line-height: 1; margin-bottom: 0.75rem; transition: color 0.3s; }
     .piano-card:hover .piano-num { color: rgba(106,178,208,0.2); }
     .piano-card h3 { font-size: 1.6rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
     .piano-card .level-tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 0.75rem; display: block; }
@@ -197,8 +197,8 @@
     /* ── TUITION BOX ── */
     .tuition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
     .tuition-option { background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--accent); padding: 2.5rem; }
-    .tuition-option h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
-    .tuition-price { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--accent-text); line-height: 1; margin: 0.75rem 0 0.5rem; }
+    .tuition-option h4 { font-family: 'Merriweather', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
+    .tuition-price { font-family: 'Merriweather', serif; font-size: 2.5rem; font-weight: 300; color: var(--accent-text); line-height: 1; margin: 0.75rem 0 0.5rem; }
     .tuition-option p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
     .tuition-badge { display: inline-block; background: var(--accent); color: #0e0c0a; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.75rem; margin-bottom: 0.5rem; }
 
@@ -215,7 +215,7 @@
     .faq-list { max-width: 780px; margin: 0 auto; }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-item:first-child { border-top: 1px solid var(--border); }
-    .faq-q { width: 100%; background: none; border: none; text-align: left; padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 400; color: var(--cream); line-height: 1.35; }
+    .faq-q { width: 100%; background: none; border: none; text-align: left; padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; cursor: pointer; font-family: 'Merriweather', serif; font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 400; color: var(--cream); line-height: 1.35; }
     .faq-q:hover { color: var(--accent-text); }
     .faq-icon { flex-shrink: 0; width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--accent-text); transition: transform 0.3s, border-color 0.3s; }
     .faq-item.open .faq-icon { transform: rotate(45deg); border-color: var(--accent-text); }
@@ -224,7 +224,7 @@
     .faq-body a { color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
     .cta-band { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: clamp(4rem,9vw,7rem) clamp(1.5rem,5vw,4rem); text-align: center; }
-    .cta-band h2 { font-size: clamp(2.5rem,6vw,5rem); font-weight: 300; margin: 0.6rem 0 1.25rem; }
+    .cta-band h2 { font-size: clamp(1.9rem,4vw,3.4rem); font-weight: 400; margin: 0.6rem 0 1.25rem; }
     .cta-band h2 em { color: var(--accent-text); }
     .cta-band p { color: var(--muted); max-width: 520px; margin: 0 auto 2.5rem; }
     .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
@@ -236,7 +236,7 @@
     .footer-brand h3 { font-size: 1.4rem; font-weight: 300; margin-bottom: 0.75rem; }
     .footer-brand h3 em { color: var(--accent-text); }
     .footer-brand p { font-size: 0.88rem; color: var(--muted); line-height: 1.75; max-width: 300px; }
-    .f-col h4 { font-family: 'Jost', sans-serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 1.1rem; }
+    .f-col h4 { font-family: 'Open Sans', sans-serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 1.1rem; }
     .f-col ul { list-style: none; }
     .f-col li { margin-bottom: 0.55rem; }
     .f-col a { font-size: 0.88rem; color: var(--muted); text-decoration: none; cursor: pointer; transition: color 0.2s; }
@@ -265,7 +265,7 @@
     .semester-table { width: 100%; border-collapse: collapse; }
     .semester-table th { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-text); text-align: left; padding: 0.8rem 1.5rem; border-bottom: 1px solid var(--border); }
     .semester-table td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); color: var(--muted); }
-    .semester-table td:last-child { color: var(--cream); font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; }
+    .semester-table td:last-child { color: var(--cream); font-family: 'Merriweather', serif; font-size: 1.3rem; font-weight: 300; }
     .semester-table tr:last-child td { border-bottom: none; }
 
     /* ── PAYMENT ── */
@@ -274,10 +274,10 @@
     .pay-card h3 { font-size: 1.8rem; font-weight: 300; margin: 0.6rem 0 1rem; }
     .pay-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 0.75rem; }
     .widget-ph { background: var(--dark); border: 1px dashed var(--border); padding: 4rem 2rem; text-align: center; color: var(--muted); margin: 2rem 0; }
-    .widget-ph strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; font-weight: 300; color: var(--cream); margin-bottom: 0.75rem; }
+    .widget-ph strong { display: block; font-family: 'Merriweather', serif; font-size: 1.4rem; font-style: italic; font-weight: 300; color: var(--cream); margin-bottom: 0.75rem; }
     .widget-ph a { color: var(--accent-text); }
     .cal-ph { background: var(--card); border: 1px solid var(--border); padding: 5rem 2rem; text-align: center; color: var(--muted); }
-    .cal-ph strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-style: italic; font-weight: 300; color: var(--cream); margin-bottom: 0.75rem; }
+    .cal-ph strong { display: block; font-family: 'Merriweather', serif; font-size: 1.6rem; font-style: italic; font-weight: 300; color: var(--cream); margin-bottom: 0.75rem; }
     .cal-ph a { color: var(--accent-text); }
 
     /* ── RESOURCE CARDS ── */
