@@ -149,6 +149,10 @@
     .page-photo-band { width: 100%; height: 420px; overflow: hidden; position: relative; }
     .page-photo-band img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s ease; }
     .page-photo-band:hover img { transform: scale(1.02); }
+
+    /* ── MMS EMBEDDED FORMS ── */
+    .mms-embed-wrap { width: 100%; background: #fff; }
+    .mms-embed { display: block; width: 100%; min-height: 900px; border: none; }
     .inner-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,12,10,0.95) 0%, rgba(14,12,10,0.6) 50%, rgba(14,12,10,0.3) 100%); }
     .inner-hero-content { position: relative; z-index: 2; max-width: 1200px; width: 100%; }
     .inner-hero h1 { font-size: clamp(1.9rem,4vw,3.8rem); font-weight: 400; color: var(--white); margin-top: 0.6rem; }
@@ -766,43 +770,9 @@
     </div>
   </div>
 
-  <div class="section"><div class="section-inner">
-    <div class="tuition-grid rv">
-      <div class="tuition-option">
-        <div class="tuition-badge">Saves 5% · Option 1</div>
-        <h4>Annual Tuition</h4>
-        <div class="tuition-price">$1,925</div>
-        <p>Due upon registration. ($55 per half hour class; approx. $175/mo)</p>
-      </div>
-      <div class="tuition-option">
-        <div class="tuition-badge" style="background:transparent;border:1px solid var(--accent-text);color:var(--accent-text);">Option 2</div>
-        <h4>Semesterly Tuition</h4>
-        <div class="tuition-price">3 × $675</div>
-        <p>Due upon registration, January 1st and April 1st. ($58 per half hour class; approx. $184/mo)</p>
-      </div>
-    </div>
-
-    <div class="rv" style="max-width:720px;margin-top:2.5rem;">
-      <p style="color:var(--muted);margin-bottom:0.75rem;">For payment options, cancellation policies and add'l rates for 45- and 60-minute lessons, please visit our <a onclick="go('tuition')" style="color:var(--accent-text);cursor:pointer;">Tuition and Policies page</a>.</p>
-      <p style="color:var(--muted);margin-bottom:0.75rem;">Please note, all credit/debit card payments have a fee of <strong style="color:var(--cream);">3%</strong>. You will pay online during registration.</p>
-      <p style="color:var(--muted);">You may also pay via ACH transfer (<strong style="color:var(--cream);">NO FEE</strong>). You will be sent an email invoice.</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;max-width:800px;" class="rv">
-      <div class="tuition-option" style="text-align:center;border-color:var(--accent-text);">
-        <p class="eyebrow" style="margin-bottom:1rem;">Credit / Debit Card</p>
-        <h4 style="margin-bottom:1rem;">To register using a credit/debit card, click here</h4>
-        <p style="margin-bottom:1.5rem;">3% processing fee applies.</p>
-        <a href="https://lilianepearlstudios.mymusicstaff.com/credit-card-payments" target="_blank" class="btn-primary">Let's get playing! →</a>
-      </div>
-      <div class="tuition-option" style="text-align:center;">
-        <p class="eyebrow" style="margin-bottom:1rem;">ACH Bank Transfer</p>
-        <h4 style="margin-bottom:1rem;">To register using ACH transfer, click here</h4>
-        <p style="margin-bottom:1.5rem;">No fee. Invoice sent by email.</p>
-        <a href="https://lilianepearlstudios.mymusicstaff.com/ach-payments" target="_blank" class="btn-ghost">Let the music begin! →</a>
-      </div>
-    </div>
-  </div></div>
+  <div class="mms-embed-wrap">
+    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/30-minutes-annual-" title="Student Registration Form" loading="lazy"></iframe>
+  </div>
 
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
@@ -834,12 +804,9 @@
       <p>Enrollment is currently full, but we'll reach out the moment a spot opens.</p>
     </div>
   </div>
-  <div class="section"><div class="section-inner"><div style="max-width:720px;">
-    <div class="widget-ph">
-      <strong>New Student Interest Form</strong>
-      <p>Submit your interest at <a href="https://lilianepearlstudios.mymusicstaff.com/waitlist" target="_blank">lilianepearlstudios.mymusicstaff.com/waitlist</a></p>
-    </div>
-  </div></div></div>
+  <div class="mms-embed-wrap">
+    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/waitlist" title="PLAYlist Waitlist Form" loading="lazy"></iframe>
+  </div>
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
     <div class="f-col"><h4>Navigation</h4><ul>
@@ -945,16 +912,9 @@
       <p>Pay your tuition securely. A 3% processing fee applies — the studio does not keep any surcharge.</p>
     </div>
   </div>
-  <div class="payment-wrap"><div class="section-inner"><div class="pay-card">
-    <p class="eyebrow">Monthly Tuition</p>
-    <h3>Pay with Credit Card</h3>
-    <p>Your payment is processed securely through our studio management platform. All major cards accepted.</p>
-    <div class="widget-ph">
-      <strong>Credit Card Payment Portal</strong>
-      <p>Complete your payment at <a href="https://lilianepearlstudios.mymusicstaff.com/credit-card-payments" target="_blank">lilianepearlstudios.mymusicstaff.com/credit-card-payments</a></p>
-    </div>
-    <button class="btn-ghost" onclick="go('students')" style="margin-top:1rem;">← Back to Student Portal</button>
-  </div></div></div>
+  <div class="mms-embed-wrap">
+    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/credit-card-payments" title="Credit Card Payment" loading="lazy"></iframe>
+  </div>
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
     <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
@@ -976,16 +936,9 @@
       <p>No fees whatsoever. You will be sent an email invoice.</p>
     </div>
   </div>
-  <div class="payment-wrap"><div class="section-inner"><div class="pay-card">
-    <p class="eyebrow">ACH / Bank Transfer</p>
-    <h3>Pay via Bank Account</h3>
-    <p>Connect your bank account for seamless payments. No processing fee — the full amount goes toward your tuition.</p>
-    <div class="widget-ph">
-      <strong>ACH Payment Portal</strong>
-      <p>Complete your payment at <a href="https://lilianepearlstudios.mymusicstaff.com/ach-payments" target="_blank">lilianepearlstudios.mymusicstaff.com/ach-payments</a></p>
-    </div>
-    <button class="btn-ghost" onclick="go('students')" style="margin-top:1rem;">← Back to Student Portal</button>
-  </div></div></div>
+  <div class="mms-embed-wrap">
+    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/ach-payments" title="ACH Bank Transfer Payment" loading="lazy"></iframe>
+  </div>
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
     <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
@@ -1007,23 +960,9 @@
       <p>Pay for the full semester upfront. Due January 1st and April 1st.</p>
     </div>
   </div>
-  <div class="payment-wrap"><div class="section-inner"><div class="pay-card">
-    <p class="eyebrow">Semester Tuition</p>
-    <h3>Pay for the Semester</h3>
-    <table class="policy-tbl" style="margin-bottom:2rem;">
-      <thead><tr><th>Lesson Length</th><th>Amount Due</th></tr></thead>
-      <tbody>
-        <tr><td>30 minute class</td><td>$675</td></tr>
-        <tr><td>45 minute class</td><td>$1,013</td></tr>
-        <tr><td>60 minute class</td><td>$1,350</td></tr>
-      </tbody>
-    </table>
-    <div class="widget-ph">
-      <strong>Semesterly Payment Portal</strong>
-      <p>Complete your payment at <a href="https://lilianepearlstudios.mymusicstaff.com/card-semesterly-payments" target="_blank">lilianepearlstudios.mymusicstaff.com/card-semesterly-payments</a></p>
-    </div>
-    <button class="btn-ghost" onclick="go('students')" style="margin-top:1rem;">← Back to Student Portal</button>
-  </div></div></div>
+  <div class="mms-embed-wrap">
+    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/card-semesterly-payments" title="Semesterly Payment" loading="lazy"></iframe>
+  </div>
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
     <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
