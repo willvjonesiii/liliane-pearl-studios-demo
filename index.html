@@ -591,9 +591,9 @@
       <li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li>
-      <li><a onclick="go('ach')">ACH / Bank Transfer</a></li>
-      <li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Credit Card</a></li>
+      <li><a onclick="go('register')">ACH / Bank Transfer</a></li>
+      <li><a onclick="go('register')">Semesterly</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
@@ -696,8 +696,7 @@
         </tbody>
       </table>
       <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;">
-        <button class="btn-primary" onclick="go('cc')">Pay by Card →</button>
-        <button class="btn-ghost"   onclick="go('ach')">Pay by ACH →</button>
+        <button class="btn-primary" onclick="go('register')">Register / Make a Payment →</button>
       </div>
     </div>
   </div></div></div>
@@ -724,7 +723,7 @@
       <li><a onclick="go('waitlist')">Join the PLAYlist</a></li><li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Register / Make a Payment</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
@@ -793,7 +792,7 @@
       <li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Register / Make a Payment</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
@@ -819,8 +818,40 @@
 
   <div class="section"><div class="section-inner reg-wrap">
 
-    <!-- STEP 1: New or Returning -->
-    <div class="reg-step active" id="reg-step-choice">
+    <!-- STEP 1: Lesson length + payment plan -->
+    <div class="reg-step active" id="reg-step-plan">
+      <h3 style="text-align:center;">Registration <em>Now Open!</em></h3>
+      <p style="text-align:center;color:var(--muted);max-width:560px;margin:0 auto 2rem;">We offer two payment options for your convenience. Choose your lesson length and plan below to see your total due today.</p>
+      <div class="reg-field" style="text-align:center;">
+        <label style="text-align:center;">Lesson Length</label>
+        <div class="reg-toggle" id="reg-length-toggle" style="display:flex;justify-content:center;margin:0 auto;width:fit-content;">
+          <button type="button" class="active" data-len="30" onclick="regSetLength('30')">30 Minutes</button>
+          <button type="button" data-len="45" onclick="regSetLength('45')">45 Minutes</button>
+        </div>
+      </div>
+      <div class="reg-plan-grid">
+        <div class="reg-plan-card selected" id="reg-plan-full" onclick="regSetPlan('full')">
+          <h4>Option 1 — Pay in Full <span style="color:var(--accent-text);">(Saves 5%)</span></h4>
+          <div class="reg-plan-price" id="reg-plan-full-price">$2,395</div>
+          <p>Due upon registration. One payment, best value.</p>
+        </div>
+        <div class="reg-plan-card" id="reg-plan-three" onclick="regSetPlan('three')">
+          <h4>Option 2 — Three-Payment Plan</h4>
+          <div class="reg-plan-price" id="reg-plan-three-price">$840</div>
+          <p>Due upon registration. Remaining 2 payments: Jan 1 &amp; April 1 (billed by the studio).</p>
+        </div>
+      </div>
+      <div class="reg-amount-due">
+        <p class="eyebrow" style="margin-bottom:0.5rem;">Due Today</p>
+        <div class="amt" id="reg-amount-today">$2,395</div>
+      </div>
+      <p style="text-align:center;color:var(--muted);font-size:0.82rem;">Payment methods: Credit/Debit card (3% fee, payable here). Need ACH transfer or Zelle instead? <a onclick="go('tuition')">See all payment options</a> or contact the studio directly.</p>
+      <button class="btn-primary" onclick="regGoStep('choice')" style="display:flex;margin:1rem auto 0;">Continue &nbsp;→</button>
+    </div>
+
+    <!-- STEP 2: New or Returning -->
+    <div class="reg-step" id="reg-step-choice">
+      <button class="reg-back" onclick="regGoStep('plan')">&larr; Back</button>
       <h3 style="text-align:center;">Are you <em>new</em> or <em>returning?</em></h3>
       <div class="reg-choice-grid">
         <div class="reg-choice-card" onclick="regGoStep('lookup')">
@@ -834,7 +865,7 @@
       </div>
     </div>
 
-    <!-- STEP 2A: Returning family lookup -->
+    <!-- STEP 3A: Returning family lookup -->
     <div class="reg-step" id="reg-step-lookup">
       <button class="reg-back" onclick="regGoStep('choice')">&larr; Back</button>
       <h3>Find Your <em>Family</em></h3>
@@ -848,11 +879,20 @@
         <button onclick="regClearFamily()">Change</button>
       </div>
       <div style="margin-top:2rem;">
-        <button class="btn-primary" id="reg-lookup-continue" onclick="regGoStep('plan')" disabled>Continue &nbsp;→</button>
+        <button class="btn-primary" id="reg-lookup-continue" onclick="regGoToStudentPicker()" disabled>Continue &nbsp;→</button>
       </div>
     </div>
 
-    <!-- STEP 2B: New family registration -->
+    <!-- STEP 3A-2: Which student is this registration for -->
+    <div class="reg-step" id="reg-step-students">
+      <button class="reg-back" onclick="regGoStep('lookup')">&larr; Back</button>
+      <h3>Which <em>Student?</em></h3>
+      <p style="color:var(--muted);">Select which child this registration is for.</p>
+      <div class="reg-search-results" id="reg-student-list" style="display:block;margin-top:1rem;"></div>
+      <div id="reg-students-error" class="reg-error" style="display:none;"></div>
+    </div>
+
+    <!-- STEP 3B: New family registration -->
     <div class="reg-step" id="reg-step-new">
       <button class="reg-back" onclick="regGoStep('choice')">&larr; Back</button>
       <h3>Student <em>Info</em></h3>
@@ -885,39 +925,9 @@
       <button class="btn-primary" id="reg-new-continue" onclick="regSubmitNewFamily()">Continue &nbsp;→</button>
     </div>
 
-    <!-- STEP 3: Lesson length + payment plan -->
-    <div class="reg-step" id="reg-step-plan">
-      <button class="reg-back" onclick="regGoStep('choiceOrigin')">&larr; Back</button>
-      <h3>Choose Your <em>Plan</em></h3>
-      <div class="reg-field">
-        <label>Lesson Length</label>
-        <div class="reg-toggle" id="reg-length-toggle">
-          <button type="button" class="active" data-len="30" onclick="regSetLength('30')">30 Minutes</button>
-          <button type="button" data-len="45" onclick="regSetLength('45')">45 Minutes</button>
-        </div>
-      </div>
-      <div class="reg-plan-grid">
-        <div class="reg-plan-card selected" id="reg-plan-full" onclick="regSetPlan('full')">
-          <h4>Pay in Full <span style="color:var(--accent-text);">(Saves 5%)</span></h4>
-          <div class="reg-plan-price" id="reg-plan-full-price">$2,395</div>
-          <p>Due today. One payment, best value.</p>
-        </div>
-        <div class="reg-plan-card" id="reg-plan-three" onclick="regSetPlan('three')">
-          <h4>Three-Payment Plan</h4>
-          <div class="reg-plan-price" id="reg-plan-three-price">$840</div>
-          <p>Due today. Remaining 2 payments: Jan 1 &amp; April 1 (billed by the studio).</p>
-        </div>
-      </div>
-      <div class="reg-amount-due">
-        <p class="eyebrow" style="margin-bottom:0.5rem;">Due Today</p>
-        <div class="amt" id="reg-amount-today">$2,395</div>
-      </div>
-      <button class="btn-primary" onclick="regGoStep('pay')">Continue to Payment &nbsp;→</button>
-    </div>
-
     <!-- STEP 4: Payment -->
     <div class="reg-step" id="reg-step-pay">
-      <button class="reg-back" onclick="regGoStep('plan')">&larr; Back</button>
+      <button class="reg-back" onclick="regGoStep('choiceOrigin')">&larr; Back</button>
       <div class="pay-card" style="max-width:100%;padding:2.5rem;">
         <p class="eyebrow">Secure Payment</p>
         <h3>Pay <span id="reg-pay-amount">$2,395</span></h3>
@@ -954,7 +964,7 @@
       <li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Register / Make a Payment</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
@@ -986,7 +996,7 @@
       <li><a onclick="go('register')">Register Now!</a></li><li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Register / Make a Payment</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
@@ -1012,30 +1022,19 @@
     <div class="rv" style="margin-bottom:3rem;">
       <p class="eyebrow" style="margin-bottom:1.5rem;">Semester Payment Rates</p>
       <table class="semester-table" style="max-width:600px;background:var(--card);border:1px solid var(--border);">
-        <thead><tr><th>Lesson Length</th><th>Semester Payment</th></tr></thead>
+        <thead><tr><th>Lesson Length</th><th>Three-Payment Plan</th></tr></thead>
         <tbody>
-          <tr><td>30 minute class</td><td>$675</td></tr>
-          <tr><td>45 minute class</td><td>$1,013</td></tr>
-          <tr><td>60 minute class</td><td>$1,350</td></tr>
+          <tr><td>30 minute class</td><td>$840</td></tr>
+          <tr><td>45 minute class</td><td>$1,227</td></tr>
         </tbody>
       </table>
-      <div style="margin-top:2rem;"><button class="btn-primary" onclick="go('sem')">Pay Now →</button></div>
+      <div style="margin-top:2rem;"><button class="btn-primary" onclick="go('register')">Pay Now →</button></div>
     </div>
     <div class="res-grid rv">
-      <div class="res-card" onclick="go('cc')">
-        <h4>Credit Card Payment</h4>
-        <p>Pay your tuition securely using a major credit or debit card. 3% processing fee applies.</p>
+      <div class="res-card" onclick="go('register')">
+        <h4>Make a Payment</h4>
+        <p>Pay your tuition securely by credit/debit card, ACH transfer, or Zelle.</p>
         <span class="res-arrow">Pay Now →</span>
-      </div>
-      <div class="res-card" onclick="go('ach')">
-        <h4>ACH / Bank Transfer</h4>
-        <p>Set up a direct bank transfer. No fees. Invoice sent by email.</p>
-        <span class="res-arrow">Set Up ACH →</span>
-      </div>
-      <div class="res-card" onclick="go('sem')">
-        <h4>Semesterly Payment</h4>
-        <p>Pay for the full semester. Due January 1st and April 1st.</p>
-        <span class="res-arrow">Pay Semester →</span>
       </div>
       <div class="res-card" onclick="go('calendar')">
         <h4>Studio Calendar</h4>
@@ -1062,84 +1061,12 @@
       <li><a onclick="go('students')">Current Students</a></li>
     </ul></div>
     <div class="f-col"><h4>Payments</h4><ul>
-      <li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li>
+      <li><a onclick="go('register')">Register / Make a Payment</a></li>
     </ul></div>
   </div><div class="footer-bottom">
     <p>© 2026 Liliane Pearl Studios. All rights reserved.</p>
     <p>Designed by <a href="https://designmywebsitenow.com" target="_blank">designmywebsitenow.com</a></p>
   </div></div></footer>
-</div>
-
-
-<!-- ══════════════════════════════════════════════════ -->
-<!--  CREDIT CARD PAYMENTS                              -->
-<!-- ══════════════════════════════════════════════════ -->
-<div class="page" id="page-cc">
-  <div class="inner-hero">
-    <div class="inner-hero-bg" style="background-image:url('https://lilianepearlstudios.mymusicstaff.com/Piano-5.jpg?Width=500&Height=500');"></div>
-    <div class="inner-hero-overlay"></div>
-    <div class="inner-hero-content">
-      <p class="eyebrow">Secure Payment</p>
-      <h1>Credit Card <em>Payment</em></h1>
-      <p>Pay your tuition securely. A 3% processing fee applies — the studio does not keep any surcharge.</p>
-    </div>
-  </div>
-  <div class="mms-embed-wrap">
-    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/credit-card-payments" title="Credit Card Payment" loading="lazy"></iframe>
-  </div>
-  <footer><div class="footer-inner"><div class="footer-top">
-    <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
-    <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
-    <div class="f-col"><h4>Payments</h4><ul><li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li></ul></div>
-  </div><div class="footer-bottom"><p>© 2026 Liliane Pearl Studios. All rights reserved.</p><p>Designed by <a href="https://designmywebsitenow.com" target="_blank">designmywebsitenow.com</a></p></div></div></footer>
-</div>
-
-
-<!-- ══════════════════════════════════════════════════ -->
-<!--  ACH PAYMENTS                                      -->
-<!-- ══════════════════════════════════════════════════ -->
-<div class="page" id="page-ach">
-  <div class="inner-hero">
-    <div class="inner-hero-bg" style="background-image:url('https://lilianepearlstudios.mymusicstaff.com/pexels-edgar-okioga-221433-1185212%20(1).jpg?Width=3840&Height=1680');"></div>
-    <div class="inner-hero-overlay"></div>
-    <div class="inner-hero-content">
-      <p class="eyebrow">Secure Payment · No Fee</p>
-      <h1>ACH Bank <em>Transfer</em></h1>
-      <p>No fees whatsoever. You will be sent an email invoice.</p>
-    </div>
-  </div>
-  <div class="mms-embed-wrap">
-    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/ach-payments" title="ACH Bank Transfer Payment" loading="lazy"></iframe>
-  </div>
-  <footer><div class="footer-inner"><div class="footer-top">
-    <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
-    <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
-    <div class="f-col"><h4>Payments</h4><ul><li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li></ul></div>
-  </div><div class="footer-bottom"><p>© 2026 Liliane Pearl Studios. All rights reserved.</p><p>Designed by <a href="https://designmywebsitenow.com" target="_blank">designmywebsitenow.com</a></p></div></div></footer>
-</div>
-
-
-<!-- ══════════════════════════════════════════════════ -->
-<!--  SEMESTERLY PAYMENTS                               -->
-<!-- ══════════════════════════════════════════════════ -->
-<div class="page" id="page-sem">
-  <div class="inner-hero">
-    <div class="inner-hero-bg" style="background-image:url('https://lilianepearlstudios.mymusicstaff.com/Piano-5.jpg?Width=500&Height=500');"></div>
-    <div class="inner-hero-overlay"></div>
-    <div class="inner-hero-content">
-      <p class="eyebrow">Secure Payment</p>
-      <h1>Semesterly <em>Payment</em></h1>
-      <p>Pay for the full semester upfront. Due January 1st and April 1st.</p>
-    </div>
-  </div>
-  <div class="mms-embed-wrap">
-    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/card-semesterly-payments" title="Semesterly Payment" loading="lazy"></iframe>
-  </div>
-  <footer><div class="footer-inner"><div class="footer-top">
-    <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
-    <div class="f-col"><h4>Navigation</h4><ul><li><a onclick="go('home')">Home</a></li><li><a onclick="go('tuition')">Tuition &amp; Policies</a></li><li><a onclick="go('students')">Current Students</a></li></ul></div>
-    <div class="f-col"><h4>Payments</h4><ul><li><a onclick="go('cc')">Credit Card</a></li><li><a onclick="go('ach')">ACH / Bank Transfer</a></li><li><a onclick="go('sem')">Semesterly</a></li></ul></div>
-  </div><div class="footer-bottom"><p>© 2026 Liliane Pearl Studios. All rights reserved.</p><p>Designed by <a href="https://designmywebsitenow.com" target="_blank">designmywebsitenow.com</a></p></div></div></footer>
 </div>
 
 
@@ -1163,7 +1090,7 @@
     if (first) { const btn = first.querySelector('.faq-q'); if (btn) toggleFaq(btn); }
   });
 
-  const pages = { home:'page-home', tuition:'page-tuition', calendar:'page-calendar', register:'page-register', waitlist:'page-waitlist', students:'page-students', cc:'page-cc', ach:'page-ach', sem:'page-sem' };
+  const pages = { home:'page-home', tuition:'page-tuition', calendar:'page-calendar', register:'page-register', waitlist:'page-waitlist', students:'page-students' };
   function go(key) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const el = document.getElementById(pages[key]);
@@ -1198,18 +1125,24 @@
     '45': { full: 3495, three: 1227 },
   };
 
-  let regOrigin = 'lookup';       // 'lookup' | 'new' — where step-plan's Back button returns to
+  let regOrigin = 'lookup';       // 'lookup' | 'new' — where step-pay's Back button returns to
   let regFamilyId = null;
   let regFamilyName = null;
+  let regStudentId = null;        // only set for returning families (student picker)
+  let regStudentName = null;
   let regStudentType = 'Child';
   let regLength = '30';
   let regPlan = 'full';
   let regSearchTimeout = null;
 
+  const PLAN_LABELS = { full: 'Annual', three: 'Three-Payment' };
+
   window.regGoStep = function(step) {
     if (step === 'choiceOrigin') step = regOrigin;
     document.querySelectorAll('#page-register .reg-step').forEach(el => el.classList.remove('active'));
+    if (step === 'choice') { regFamilyId = null; regFamilyName = null; regStudentId = null; regStudentName = null; }
     if (step === 'lookup') regOrigin = 'lookup';
+    if (step === 'students') regOrigin = 'students';
     if (step === 'new') regOrigin = 'new';
     const target = document.getElementById('reg-step-' + step);
     if (target) target.classList.add('active');
@@ -1302,6 +1235,42 @@
     document.getElementById('reg-lookup-continue').disabled = true;
   };
 
+  // ── Student picker (returning families — MMS Note field lives on the Student, not Family) ──
+  window.regGoToStudentPicker = async function() {
+    regGoStep('students');
+    const listEl = document.getElementById('reg-student-list');
+    const errEl = document.getElementById('reg-students-error');
+    errEl.style.display = 'none';
+    listEl.innerHTML = '<div class="reg-family-row" style="cursor:default;color:var(--muted);">Loading students...</div>';
+
+    try {
+      const res = await fetch('https://designmywebsitenow.com/api/mms-family-students?familyId=' + encodeURIComponent(regFamilyId));
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not load students.');
+
+      const students = data.students || [];
+      if (!students.length) {
+        listEl.innerHTML = '<div class="reg-family-row" style="cursor:default;color:var(--muted);">No students found on this family. Please contact the studio directly.</div>';
+        return;
+      }
+      listEl.innerHTML = students.map(s =>
+        '<div class="reg-family-row" onclick="regSelectStudent(\'' + s.id + '\', ' + JSON.stringify(s.name).replace(/"/g, '&quot;') + ')">' +
+          '<div class="fam-name">' + s.name + '</div>' +
+        '</div>'
+      ).join('');
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.style.display = 'block';
+      listEl.innerHTML = '';
+    }
+  };
+
+  window.regSelectStudent = function(id, name) {
+    regStudentId = id;
+    regStudentName = name;
+    regGoStep('pay');
+  };
+
   // ── New family registration ──
   window.regSubmitNewFamily = async function() {
     const errEl = document.getElementById('reg-new-error');
@@ -1338,6 +1307,7 @@
         body: JSON.stringify({
           studentType: regStudentType, studentFirstName, studentLastName, studentBirthday,
           parentFirstName, parentLastName, parentEmail, parentPhone, agreedToPolicy,
+          lessonLength: regLength, planLabel: PLAN_LABELS[regPlan],
         }),
       });
       const data = await res.json();
@@ -1390,7 +1360,11 @@
       const intentRes = await fetch('https://designmywebsitenow.com/api/mms-create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: regAmountDue(), familyId: regFamilyId, familyName: regFamilyName }),
+        body: JSON.stringify({
+          amount: regAmountDue(), familyId: regFamilyId, familyName: regFamilyName,
+          studentId: regStudentId, studentName: regStudentName,
+          lessonLength: regLength, planLabel: PLAN_LABELS[regPlan],
+        }),
       });
       const intentData = await intentRes.json();
       if (!intentRes.ok) throw new Error(intentData.error || 'Could not start payment.');
