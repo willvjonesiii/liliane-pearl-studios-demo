@@ -938,15 +938,11 @@
         <h3>Pay <span id="reg-pay-amount">$2,395</span></h3>
         <p>Processed securely for <strong id="reg-pay-family-name">your family</strong>.</p>
         <div class="reg-field" style="margin-top:1.5rem;">
-          <label>Name on Card</label>
-          <input type="text" id="reg-card-name">
-        </div>
-        <div class="reg-field">
-          <label>Card Details</label>
+          <label>Payment Details</label>
           <div id="reg-card-element"></div>
         </div>
         <div id="reg-pay-error" class="reg-error" style="display:none;"></div>
-        <button class="btn-primary" id="reg-pay-submit" onclick="regSubmitPayment()" style="margin-top:1rem;width:100%;justify-content:center;">Submit Payment &nbsp;→</button>
+        <button class="btn-primary" id="reg-pay-submit" onclick="regSubmitPayment()" disabled style="margin-top:1rem;width:100%;justify-content:center;">Submit Payment &nbsp;→</button>
       </div>
     </div>
 
@@ -955,6 +951,15 @@
       <div class="reg-success">
         <h3>Payment <em>Received!</em></h3>
         <p style="color:var(--muted);">Thank you — your payment has been processed and your family's account is being updated. You'll receive a confirmation email shortly.</p>
+        <button class="btn-ghost" onclick="go('home')" style="margin-top:1.5rem;">Return Home</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: Success (ACH processing) -->
+    <div class="reg-step" id="reg-step-processing">
+      <div class="reg-success">
+        <h3>Payment <em>Processing!</em></h3>
+        <p style="color:var(--muted);">Thank you — your bank payment has been submitted. Bank transfers typically take 1&ndash;4 business days to clear. Your family's account will be finalized as soon as it settles, and you'll receive a confirmation email at that time.</p>
         <button class="btn-ghost" onclick="go('home')" style="margin-top:1.5rem;">Return Home</button>
       </div>
     </div>
@@ -1121,9 +1126,10 @@
 (function() {
   const MMS_STRIPE_PK = 'pk_live_51OPcFQAiy8OoURYBZcEFamrqVuWPQWLn43m6jvIaUAZBUBPk4uP4j0FgAV6ZXt7oacdaBPeMyZqAfD8GxpjoCNmy00YlHrSU1L';
   const stripe = Stripe(MMS_STRIPE_PK);
-  const elements = stripe.elements();
-  let cardElement = null;
-  let cardMounted = false;
+  let regElements = null;
+  let paymentElement = null;
+  let regClientSecret = null;
+  let regParentEmail = null;
 
   const PRICES = {
     '30': { full: 2395, three: 840 },
@@ -1145,7 +1151,7 @@
   window.regGoStep = function(step) {
     if (step === 'choiceOrigin') step = regOrigin;
     document.querySelectorAll('#page-register .reg-step').forEach(el => el.classList.remove('active'));
-    if (step === 'choice') { regFamilyId = null; regFamilyName = null; regStudentId = null; regStudentName = null; }
+    if (step === 'choice') { regFamilyId = null; regFamilyName = null; regStudentId = null; regStudentName = null; regParentEmail = null; }
     if (step === 'lookup') regOrigin = 'lookup';
     if (step === 'students') regOrigin = 'students';
     if (step === 'new') regOrigin = 'new';
@@ -1155,7 +1161,7 @@
     if (step === 'pay') {
       document.getElementById('reg-pay-amount').textContent = regFormatAmount(regAmountDue());
       document.getElementById('reg-pay-family-name').textContent = regFamilyName || 'your family';
-      regMountCardElement();
+      regPreparePayment();
     }
   };
 
@@ -1321,6 +1327,7 @@
 
       regFamilyId = data.familyId;
       regFamilyName = data.familyName;
+      regParentEmail = parentEmail;
       regGoStep('pay');
     } catch (e) {
       errEl.textContent = e.message;
@@ -1332,35 +1339,27 @@
   };
 
   // ── Payment ──
-  function regMountCardElement() {
-    if (cardMounted) return;
-    cardElement = elements.create('card', {
-      style: { base: { fontSize: '15px', color: '#2a2218', fontFamily: 'Open Sans, sans-serif', '::placeholder': { color: '#4a4239' } } },
-    });
-    cardElement.mount('#reg-card-element');
-    cardMounted = true;
-  }
-
-  window.regSubmitPayment = async function() {
+  // Fetches a fresh PaymentIntent as soon as the pay step is reached (all data
+  // needed is already known at that point) and mounts the Payment Element so
+  // Stripe can offer whatever's enabled on the account — card, ACH, etc.
+  async function regPreparePayment() {
     const errEl = document.getElementById('reg-pay-error');
+    const btn = document.getElementById('reg-pay-submit');
+    const mountEl = document.getElementById('reg-card-element');
     errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Loading payment form...';
+
+    if (paymentElement) { try { paymentElement.unmount(); } catch (e) {} paymentElement = null; }
+    mountEl.innerHTML = '';
+    regElements = null;
+    regClientSecret = null;
 
     if (!regFamilyId || !regFamilyName) {
       errEl.textContent = 'Something went wrong — please start over.';
       errEl.style.display = 'block';
       return;
     }
-
-    const cardName = document.getElementById('reg-card-name').value.trim();
-    if (!cardName) {
-      errEl.textContent = 'Please enter the name on the card.';
-      errEl.style.display = 'block';
-      return;
-    }
-
-    const btn = document.getElementById('reg-pay-submit');
-    btn.disabled = true;
-    btn.textContent = 'Processing...';
 
     try {
       const intentRes = await fetch('https://designmywebsitenow.com/api/mms-create-payment-intent', {
@@ -1370,18 +1369,56 @@
           amount: regAmountDue(), familyId: regFamilyId, familyName: regFamilyName,
           studentId: regStudentId, studentName: regStudentName,
           lessonLength: regLength, planLabel: PLAN_LABELS[regPlan],
+          customerEmail: regParentEmail || undefined,
         }),
       });
       const intentData = await intentRes.json();
       if (!intentRes.ok) throw new Error(intentData.error || 'Could not start payment.');
 
-      const result = await stripe.confirmCardPayment(intentData.clientSecret, {
-        payment_method: { card: cardElement, billing_details: { name: cardName } },
+      regClientSecret = intentData.clientSecret;
+      regElements = stripe.elements({
+        clientSecret: regClientSecret,
+        appearance: { theme: 'stripe', variables: { fontFamily: 'Open Sans, sans-serif', colorText: '#2a2218', colorTextPlaceholder: '#4a4239' } },
+      });
+      paymentElement = regElements.create('payment');
+      paymentElement.mount('#reg-card-element');
+      btn.disabled = false;
+      btn.textContent = 'Submit Payment  →';
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.style.display = 'block';
+      btn.textContent = 'Submit Payment  →';
+    }
+  }
+
+  window.regSubmitPayment = async function() {
+    const errEl = document.getElementById('reg-pay-error');
+    errEl.style.display = 'none';
+
+    if (!regFamilyId || !regFamilyName || !regElements || !regClientSecret) {
+      errEl.textContent = 'Something went wrong — please start over.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('reg-pay-submit');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+
+    try {
+      const result = await stripe.confirmPayment({
+        elements: regElements,
+        confirmParams: { return_url: window.location.href },
+        redirect: 'if_required',
       });
 
       if (result.error) throw new Error(result.error.message);
 
-      regGoStep('success');
+      if (result.paymentIntent && result.paymentIntent.status === 'processing') {
+        regGoStep('processing');
+      } else {
+        regGoStep('success');
+      }
     } catch (e) {
       errEl.textContent = e.message;
       errEl.style.display = 'block';
