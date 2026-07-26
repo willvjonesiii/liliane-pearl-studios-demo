@@ -330,6 +330,51 @@
       .piano-grid { grid-template-columns: 1fr; }
     }
     @media (max-width:480px) { .pay-card { padding: 2rem 1.5rem; } }
+
+    /* ── REGISTRATION / PAYMENT FLOW ── */
+    .reg-wrap { max-width: 760px; margin: 0 auto; }
+    .reg-step { display: none; }
+    .reg-step.active { display: block; }
+    .reg-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    .reg-choice-card { border: 1px solid var(--border); background: var(--card); padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+    .reg-choice-card:hover { border-color: var(--accent-text); }
+    .reg-choice-card h4 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .reg-choice-card p { color: var(--muted); font-size: 0.85rem; margin: 0; }
+    .reg-back { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--muted); font-size: 0.8rem; cursor: pointer; margin-bottom: 1.5rem; background: none; border: none; padding: 0; }
+    .reg-back:hover { color: var(--accent-text); }
+    .reg-field { margin-bottom: 1.4rem; }
+    .reg-field label { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .reg-field input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--border); background: var(--white); color: var(--cream); font-family: 'Open Sans', sans-serif; font-size: 0.95rem; }
+    .reg-field input:focus { outline: none; border-color: var(--accent-text); }
+    .reg-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .reg-toggle { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .reg-toggle button { padding: 0.7rem 1.8rem; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; color: var(--muted); font-family: 'Open Sans', sans-serif; transition: background 0.2s, color 0.2s; }
+    .reg-toggle button.active { background: var(--border); color: var(--cream); }
+    .reg-search-results { border: 1px solid var(--border); margin-top: 0.75rem; max-height: 260px; overflow-y: auto; }
+    .reg-family-row { padding: 0.9rem 1.1rem; cursor: pointer; border-bottom: 1px solid var(--border); background: var(--white); transition: background 0.15s; }
+    .reg-family-row:last-child { border-bottom: none; }
+    .reg-family-row:hover { background: var(--card); }
+    .reg-family-row .fam-name { font-family: 'Merriweather', serif; font-size: 1.05rem; }
+    .reg-family-row .fam-students { color: var(--muted); font-size: 0.8rem; margin-top: 0.15rem; }
+    .reg-selected-family { border: 1px solid var(--accent-text); background: var(--card); padding: 1rem 1.25rem; margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; }
+    .reg-selected-family button { background: none; border: none; color: var(--accent-text); font-size: 0.75rem; text-decoration: underline; cursor: pointer; }
+    .reg-policy-row { display: flex; align-items: flex-start; gap: 0.7rem; margin-bottom: 1.4rem; }
+    .reg-policy-row input { margin-top: 0.3rem; flex-shrink: 0; }
+    .reg-policy-row label { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+    .reg-policy-row a { color: var(--accent-text); }
+    .reg-plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+    .reg-plan-card { border: 1px solid var(--border); background: var(--card); padding: 1.75rem; cursor: pointer; transition: border-color 0.2s; }
+    .reg-plan-card:hover, .reg-plan-card.selected { border-color: var(--accent-text); }
+    .reg-plan-card h4 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .reg-plan-card .reg-plan-price { font-family: 'Merriweather', serif; font-size: 1.6rem; color: var(--accent-text); margin: 0.4rem 0; }
+    .reg-plan-card p { color: var(--muted); font-size: 0.82rem; margin: 0; }
+    .reg-amount-due { border: 1px solid var(--accent-text); background: var(--card); padding: 1.5rem; text-align: center; margin: 1.5rem 0; }
+    .reg-amount-due .amt { font-family: 'Merriweather', serif; font-size: 2.2rem; color: var(--accent-text); }
+    #reg-card-element { border: 1px solid var(--border); background: var(--white); padding: 1rem; margin-top: 0.5rem; }
+    .reg-error { color: #a03030; font-size: 0.85rem; margin-top: 0.6rem; }
+    .reg-success { text-align: center; padding: 3rem 1rem; }
+    .reg-success h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+    @media (max-width:640px) { .reg-choice-grid, .reg-row-2, .reg-plan-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -772,9 +817,134 @@
     </div>
   </div>
 
-  <div class="mms-embed-wrap">
-    <iframe class="mms-embed" src="https://lilianepearlstudios.mymusicstaff.com/30-minutes-annual-" title="Student Registration Form" loading="lazy"></iframe>
-  </div>
+  <div class="section"><div class="section-inner reg-wrap">
+
+    <!-- STEP 1: New or Returning -->
+    <div class="reg-step active" id="reg-step-choice">
+      <h3 style="text-align:center;">Are you <em>new</em> or <em>returning?</em></h3>
+      <div class="reg-choice-grid">
+        <div class="reg-choice-card" onclick="regGoStep('lookup')">
+          <h4>Returning Family</h4>
+          <p>I've registered with Liliane Pearl Studios before.</p>
+        </div>
+        <div class="reg-choice-card" onclick="regGoStep('new')">
+          <h4>New to the Studio</h4>
+          <p>This is my family's first time registering.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2A: Returning family lookup -->
+    <div class="reg-step" id="reg-step-lookup">
+      <button class="reg-back" onclick="regGoStep('choice')">&larr; Back</button>
+      <h3>Find Your <em>Family</em></h3>
+      <div class="reg-field">
+        <label>Search by family name</label>
+        <input type="text" id="reg-family-search" placeholder="Start typing your last name...">
+      </div>
+      <div class="reg-search-results" id="reg-family-results" style="display:none;"></div>
+      <div class="reg-selected-family" id="reg-selected-family" style="display:none;">
+        <div><div class="fam-name" id="reg-selected-name"></div></div>
+        <button onclick="regClearFamily()">Change</button>
+      </div>
+      <div style="margin-top:2rem;">
+        <button class="btn-primary" id="reg-lookup-continue" onclick="regGoStep('plan')" disabled>Continue &nbsp;→</button>
+      </div>
+    </div>
+
+    <!-- STEP 2B: New family registration -->
+    <div class="reg-step" id="reg-step-new">
+      <button class="reg-back" onclick="regGoStep('choice')">&larr; Back</button>
+      <h3>Student <em>Info</em></h3>
+      <div class="reg-field">
+        <label>Student Type</label>
+        <div class="reg-toggle" id="reg-student-type-toggle">
+          <button type="button" class="active" data-type="Child" onclick="regSetStudentType('Child')">Child</button>
+          <button type="button" data-type="Adult" onclick="regSetStudentType('Adult')">Adult</button>
+        </div>
+      </div>
+      <div class="reg-row-2">
+        <div class="reg-field"><label>Student First Name</label><input type="text" id="reg-student-first"></div>
+        <div class="reg-field"><label>Student Last Name</label><input type="text" id="reg-student-last"></div>
+      </div>
+      <div class="reg-field"><label>Student Birthday</label><input type="date" id="reg-student-dob"></div>
+
+      <h3 style="margin-top:2.5rem;">Parent <em>Info</em></h3>
+      <div class="reg-row-2">
+        <div class="reg-field"><label>Parent First Name</label><input type="text" id="reg-parent-first"></div>
+        <div class="reg-field"><label>Parent Last Name</label><input type="text" id="reg-parent-last"></div>
+      </div>
+      <div class="reg-field"><label>Email</label><input type="email" id="reg-parent-email"></div>
+      <div class="reg-field"><label>Phone</label><input type="tel" id="reg-parent-phone"></div>
+
+      <div class="reg-policy-row">
+        <input type="checkbox" id="reg-policy-agree">
+        <label for="reg-policy-agree">I have read and agree to the <a onclick="go('tuition')">studio policies</a>.</label>
+      </div>
+      <div id="reg-new-error" class="reg-error" style="display:none;"></div>
+      <button class="btn-primary" id="reg-new-continue" onclick="regSubmitNewFamily()">Continue &nbsp;→</button>
+    </div>
+
+    <!-- STEP 3: Lesson length + payment plan -->
+    <div class="reg-step" id="reg-step-plan">
+      <button class="reg-back" onclick="regGoStep('choiceOrigin')">&larr; Back</button>
+      <h3>Choose Your <em>Plan</em></h3>
+      <div class="reg-field">
+        <label>Lesson Length</label>
+        <div class="reg-toggle" id="reg-length-toggle">
+          <button type="button" class="active" data-len="30" onclick="regSetLength('30')">30 Minutes</button>
+          <button type="button" data-len="45" onclick="regSetLength('45')">45 Minutes</button>
+        </div>
+      </div>
+      <div class="reg-plan-grid">
+        <div class="reg-plan-card selected" id="reg-plan-full" onclick="regSetPlan('full')">
+          <h4>Pay in Full <span style="color:var(--accent-text);">(Saves 5%)</span></h4>
+          <div class="reg-plan-price" id="reg-plan-full-price">$2,395</div>
+          <p>Due today. One payment, best value.</p>
+        </div>
+        <div class="reg-plan-card" id="reg-plan-three" onclick="regSetPlan('three')">
+          <h4>Three-Payment Plan</h4>
+          <div class="reg-plan-price" id="reg-plan-three-price">$840</div>
+          <p>Due today. Remaining 2 payments: Jan 1 &amp; April 1 (billed by the studio).</p>
+        </div>
+      </div>
+      <div class="reg-amount-due">
+        <p class="eyebrow" style="margin-bottom:0.5rem;">Due Today</p>
+        <div class="amt" id="reg-amount-today">$2,395</div>
+      </div>
+      <button class="btn-primary" onclick="regGoStep('pay')">Continue to Payment &nbsp;→</button>
+    </div>
+
+    <!-- STEP 4: Payment -->
+    <div class="reg-step" id="reg-step-pay">
+      <button class="reg-back" onclick="regGoStep('plan')">&larr; Back</button>
+      <div class="pay-card" style="max-width:100%;padding:2.5rem;">
+        <p class="eyebrow">Secure Payment</p>
+        <h3>Pay <span id="reg-pay-amount">$2,395</span></h3>
+        <p>Processed securely for <strong id="reg-pay-family-name">your family</strong>.</p>
+        <div class="reg-field" style="margin-top:1.5rem;">
+          <label>Name on Card</label>
+          <input type="text" id="reg-card-name">
+        </div>
+        <div class="reg-field">
+          <label>Card Details</label>
+          <div id="reg-card-element"></div>
+        </div>
+        <div id="reg-pay-error" class="reg-error" style="display:none;"></div>
+        <button class="btn-primary" id="reg-pay-submit" onclick="regSubmitPayment()" style="margin-top:1rem;width:100%;justify-content:center;">Submit Payment &nbsp;→</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Success -->
+    <div class="reg-step" id="reg-step-success">
+      <div class="reg-success">
+        <h3>Payment <em>Received!</em></h3>
+        <p style="color:var(--muted);">Thank you — your payment has been processed and your family's account is being updated. You'll receive a confirmation email shortly.</p>
+        <button class="btn-ghost" onclick="go('home')" style="margin-top:1.5rem;">Return Home</button>
+      </div>
+    </div>
+
+  </div></div>
 
   <footer><div class="footer-inner"><div class="footer-top">
     <div class="footer-brand"><h3>Liliane <em>Pearl</em> Studios</h3><p>Premium private piano instruction for children and young adults.</p></div>
@@ -1011,6 +1181,236 @@
     document.querySelectorAll('.rv:not(.visible)').forEach(el => io.observe(el));
   }
   document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+
+<!-- ── REGISTRATION / PAYMENT FLOW ── -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+(function() {
+  const MMS_STRIPE_PK = 'pk_live_51OPcFQAiy8OoURYBZcEFamrqVuWPQWLn43m6jvIaUAZBUBPk4uP4j0FgAV6ZXt7oacdaBPeMyZqAfD8GxpjoCNmy00YlHrSU1L';
+  const stripe = Stripe(MMS_STRIPE_PK);
+  const elements = stripe.elements();
+  let cardElement = null;
+  let cardMounted = false;
+
+  const PRICES = {
+    '30': { full: 2395, three: 840 },
+    '45': { full: 3495, three: 1227 },
+  };
+
+  let regOrigin = 'lookup';       // 'lookup' | 'new' — where step-plan's Back button returns to
+  let regFamilyId = null;
+  let regFamilyName = null;
+  let regStudentType = 'Child';
+  let regLength = '30';
+  let regPlan = 'full';
+  let regSearchTimeout = null;
+
+  window.regGoStep = function(step) {
+    if (step === 'choiceOrigin') step = regOrigin;
+    document.querySelectorAll('#page-register .reg-step').forEach(el => el.classList.remove('active'));
+    if (step === 'lookup') regOrigin = 'lookup';
+    if (step === 'new') regOrigin = 'new';
+    const target = document.getElementById('reg-step-' + step);
+    if (target) target.classList.add('active');
+    if (step === 'plan') regUpdateAmounts();
+    if (step === 'pay') {
+      document.getElementById('reg-pay-amount').textContent = regFormatAmount(regAmountDue());
+      document.getElementById('reg-pay-family-name').textContent = regFamilyName || 'your family';
+      regMountCardElement();
+    }
+  };
+
+  function regFormatAmount(n) {
+    return '$' + n.toLocaleString('en-US');
+  }
+
+  function regAmountDue() {
+    return PRICES[regLength][regPlan];
+  }
+
+  window.regSetStudentType = function(type) {
+    regStudentType = type;
+    document.querySelectorAll('#reg-student-type-toggle button').forEach(b => b.classList.toggle('active', b.dataset.type === type));
+  };
+
+  window.regSetLength = function(len) {
+    regLength = len;
+    document.querySelectorAll('#reg-length-toggle button').forEach(b => b.classList.toggle('active', b.dataset.len === len));
+    regUpdateAmounts();
+  };
+
+  window.regSetPlan = function(plan) {
+    regPlan = plan;
+    document.getElementById('reg-plan-full').classList.toggle('selected', plan === 'full');
+    document.getElementById('reg-plan-three').classList.toggle('selected', plan === 'three');
+    regUpdateAmounts();
+  };
+
+  function regUpdateAmounts() {
+    document.getElementById('reg-plan-full-price').textContent = regFormatAmount(PRICES[regLength].full);
+    document.getElementById('reg-plan-three-price').textContent = regFormatAmount(PRICES[regLength].three);
+    document.getElementById('reg-amount-today').textContent = regFormatAmount(regAmountDue());
+  }
+
+  // ── Family search (returning families) ──
+  const searchInput = document.getElementById('reg-family-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      clearTimeout(regSearchTimeout);
+      const q = this.value.trim();
+      const resultsEl = document.getElementById('reg-family-results');
+      if (q.length < 2) { resultsEl.style.display = 'none'; resultsEl.innerHTML = ''; return; }
+      regSearchTimeout = setTimeout(async () => {
+        try {
+          const res = await fetch('https://designmywebsitenow.com/api/mms-families?q=' + encodeURIComponent(q));
+          const data = await res.json();
+          const families = data.families || [];
+          if (!families.length) {
+            resultsEl.innerHTML = '<div class="reg-family-row" style="cursor:default;color:var(--muted);">No matching family found.</div>';
+          } else {
+            resultsEl.innerHTML = families.map(f =>
+              '<div class="reg-family-row" onclick="regSelectFamily(\'' + f.id + '\', ' + JSON.stringify(f.name).replace(/"/g, '&quot;') + ')">' +
+                '<div class="fam-name">' + f.name + '</div>' +
+                (f.students ? '<div class="fam-students">' + f.students + '</div>' : '') +
+              '</div>'
+            ).join('');
+          }
+          resultsEl.style.display = 'block';
+        } catch (e) {
+          resultsEl.innerHTML = '<div class="reg-family-row" style="cursor:default;color:var(--muted);">Search failed — please try again.</div>';
+          resultsEl.style.display = 'block';
+        }
+      }, 350);
+    });
+  }
+
+  window.regSelectFamily = function(id, name) {
+    regFamilyId = id;
+    regFamilyName = name;
+    document.getElementById('reg-family-search').value = '';
+    document.getElementById('reg-family-results').style.display = 'none';
+    document.getElementById('reg-selected-name').textContent = name;
+    document.getElementById('reg-selected-family').style.display = 'flex';
+    document.getElementById('reg-lookup-continue').disabled = false;
+  };
+
+  window.regClearFamily = function() {
+    regFamilyId = null;
+    regFamilyName = null;
+    document.getElementById('reg-selected-family').style.display = 'none';
+    document.getElementById('reg-lookup-continue').disabled = true;
+  };
+
+  // ── New family registration ──
+  window.regSubmitNewFamily = async function() {
+    const errEl = document.getElementById('reg-new-error');
+    errEl.style.display = 'none';
+
+    const studentFirstName = document.getElementById('reg-student-first').value.trim();
+    const studentLastName  = document.getElementById('reg-student-last').value.trim();
+    const studentBirthday  = document.getElementById('reg-student-dob').value;
+    const parentFirstName  = document.getElementById('reg-parent-first').value.trim();
+    const parentLastName   = document.getElementById('reg-parent-last').value.trim();
+    const parentEmail      = document.getElementById('reg-parent-email').value.trim();
+    const parentPhone      = document.getElementById('reg-parent-phone').value.trim();
+    const agreedToPolicy   = document.getElementById('reg-policy-agree').checked;
+
+    if (!studentFirstName || !studentLastName || !parentFirstName || !parentLastName || !parentEmail || !parentPhone) {
+      errEl.textContent = 'Please fill in all required fields.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!agreedToPolicy) {
+      errEl.textContent = 'You must agree to the studio policies to continue.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('reg-new-continue');
+    btn.disabled = true;
+    btn.textContent = 'Creating your account...';
+
+    try {
+      const res = await fetch('https://designmywebsitenow.com/api/mms-create-family', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentType: regStudentType, studentFirstName, studentLastName, studentBirthday,
+          parentFirstName, parentLastName, parentEmail, parentPhone, agreedToPolicy,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not create your family record.');
+
+      regFamilyId = data.familyId;
+      regFamilyName = data.familyName;
+      regGoStep('plan');
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Continue  →';
+    }
+  };
+
+  // ── Payment ──
+  function regMountCardElement() {
+    if (cardMounted) return;
+    cardElement = elements.create('card', {
+      style: { base: { fontSize: '15px', color: '#2a2218', fontFamily: 'Open Sans, sans-serif', '::placeholder': { color: '#4a4239' } } },
+    });
+    cardElement.mount('#reg-card-element');
+    cardMounted = true;
+  }
+
+  window.regSubmitPayment = async function() {
+    const errEl = document.getElementById('reg-pay-error');
+    errEl.style.display = 'none';
+
+    if (!regFamilyId || !regFamilyName) {
+      errEl.textContent = 'Something went wrong — please start over.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const cardName = document.getElementById('reg-card-name').value.trim();
+    if (!cardName) {
+      errEl.textContent = 'Please enter the name on the card.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const btn = document.getElementById('reg-pay-submit');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+
+    try {
+      const intentRes = await fetch('https://designmywebsitenow.com/api/mms-create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: regAmountDue(), familyId: regFamilyId, familyName: regFamilyName }),
+      });
+      const intentData = await intentRes.json();
+      if (!intentRes.ok) throw new Error(intentData.error || 'Could not start payment.');
+
+      const result = await stripe.confirmCardPayment(intentData.clientSecret, {
+        payment_method: { card: cardElement, billing_details: { name: cardName } },
+      });
+
+      if (result.error) throw new Error(result.error.message);
+
+      regGoStep('success');
+    } catch (e) {
+      errEl.textContent = e.message;
+      errEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Submit Payment  →';
+    }
+  };
+})();
 </script>
 </body>
 </html>
