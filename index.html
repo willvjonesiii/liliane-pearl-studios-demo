@@ -918,6 +918,11 @@
       <div class="reg-field"><label>Phone</label><input type="tel" id="reg-parent-phone"></div>
 
       <div class="reg-policy-row">
+        <input type="checkbox" id="reg-same-as-student">
+        <label for="reg-same-as-student">This is also the student's own contact info.</label>
+      </div>
+
+      <div class="reg-policy-row">
         <input type="checkbox" id="reg-policy-agree">
         <label for="reg-policy-agree">I have read and agree to the <a onclick="go('tuition')">studio policies</a>.</label>
       </div>
@@ -1283,6 +1288,7 @@
     const parentLastName   = document.getElementById('reg-parent-last').value.trim();
     const parentEmail      = document.getElementById('reg-parent-email').value.trim();
     const parentPhone      = document.getElementById('reg-parent-phone').value.trim();
+    const sameAsStudent    = document.getElementById('reg-same-as-student').checked;
     const agreedToPolicy   = document.getElementById('reg-policy-agree').checked;
 
     if (!studentFirstName || !studentLastName || !parentFirstName || !parentLastName || !parentEmail || !parentPhone) {
@@ -1306,7 +1312,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           studentType: regStudentType, studentFirstName, studentLastName, studentBirthday,
-          parentFirstName, parentLastName, parentEmail, parentPhone, agreedToPolicy,
+          parentFirstName, parentLastName, parentEmail, parentPhone, sameAsStudent, agreedToPolicy,
           lessonLength: regLength, planLabel: PLAN_LABELS[regPlan],
         }),
       });
