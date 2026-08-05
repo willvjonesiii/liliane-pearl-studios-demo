@@ -297,6 +297,27 @@
     .cal-ph strong { display: block; font-family: 'Merriweather', serif; font-size: 1.6rem; font-style: italic; font-weight: 300; color: var(--cream); margin-bottom: 0.75rem; }
     .cal-ph a { color: var(--accent-text); }
 
+    /* ── LIVE CALENDAR (synced from Google Sheet) ── */
+    .live-cal { background: var(--card); border: 1px solid var(--border); padding: clamp(2rem,4vw,3rem); }
+    .live-cal-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1.25rem 1.5rem; margin-bottom: 2.25rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .live-cal-title { display: block; font-family: 'Merriweather', serif; font-size: 1.6rem; font-style: italic; font-weight: 300; color: var(--cream); }
+    .live-cal-status { font-family: 'Open Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; animation: liveDotPulse 2s ease-in-out infinite; }
+    @keyframes liveDotPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .live-cal-body { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 2rem 2.5rem; }
+    .live-cal-month { min-width: 0; }
+    .live-cal-month-label { font-family: 'Merriweather', serif; font-style: italic; font-size: 1.1rem; color: var(--accent-text); margin-bottom: 0.9rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .live-cal-event { display: flex; gap: 0.8rem; padding: 0.6rem 0; border-bottom: 1px solid rgba(168,158,144,0.22); }
+    .live-cal-event:last-child { border-bottom: none; }
+    .live-cal-tag { flex-shrink: 0; width: 8px; margin-top: 0.2rem; border-radius: 2px; }
+    .live-cal-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
+    .live-cal-legend { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .live-cal-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; letter-spacing: 0.02em; color: var(--muted); }
+    .live-cal-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+    .live-cal-loading, .live-cal-error { text-align: center; color: var(--muted); padding: 3.5rem 1rem; font-size: 0.9rem; }
+    .live-cal-error a { color: var(--accent-text); }
+    .live-cal-foot { margin-top: 2rem; text-align: center; }
+
     /* ── RESOURCE CARDS ── */
     .res-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 1.5rem; }
     .res-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
@@ -640,7 +661,7 @@
       </div>
       <p style="font-size:0.82rem;margin-top:1rem;">Full rate before pay-in-full discount: $2,520 (30-min) / $3,680 (45-min).</p>
       <p style="font-size:0.82rem;">Families enrolling two or more students receive a <strong>$100 annual sibling tuition credit</strong> for each additional enrolled student.</p>
-      <p style="font-size:0.82rem;">Please note, we no longer offer monthly tuition.</p>
+      <p style="font-size:0.82rem;">For Monthly Tuition plans or tuition assistance, please contact the studio.</p>
     </div>
   </div></div></div>
 
@@ -744,7 +765,6 @@
       <p class="eyebrow">2026–2027 Studio Calendar</p>
       <h1>Mark Your <em>Calendars.</em></h1>
       <p>Here's what's happening this studio year.</p>
-      <p class="update-note">★ UPDATE: Group class has been moved from February 20th–21st to March 21–22nd to accommodate the ongoing winter crisis.</p>
     </div>
   </div>
 
@@ -771,11 +791,23 @@
         <p style="color:var(--muted);font-size:0.82rem;margin-top:1rem;">Please note that there will be class on Veterans Day, November 11th (Wednesday).</p>
       </div>
     </div>
-    <div class="cal-ph rv">
-      <strong>Full Studio Calendar</strong>
-      <p>For a printable copy of our FULL Calendar, studio schedule, and important dates, please download below.</p>
-      <div style="margin-top:1.5rem;">
-        <a href="https://lilianepearlstudios.mymusicstaff.com/studio-calendar" target="_blank" class="btn-primary" style="display:inline-flex;">Download Full Calendar →</a>
+    <div class="live-cal rv">
+      <div class="live-cal-top">
+        <span class="live-cal-title">Key Dates This Year</span>
+        <span class="live-cal-status" id="liveCalStatus"><span class="live-dot"></span> Syncing with studio calendar…</span>
+      </div>
+      <div class="live-cal-body" id="liveCalBody">
+        <div class="live-cal-loading">Loading the latest dates…</div>
+      </div>
+      <div class="live-cal-legend">
+        <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--accent-text);"></span>Semester Begins</span>
+        <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--accent);"></span>Group Class</span>
+        <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--accent-light);"></span>Recital</span>
+        <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--border);"></span>Closure / Break</span>
+        <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--muted);"></span>Snow Day / Makeup</span>
+      </div>
+      <div class="live-cal-foot">
+        <a href="https://docs.google.com/spreadsheets/u/7/d/1XU4htWR0XukO0CmONdNw7p7Bd6pty0ujpubkua6Cmr8/edit?usp=sharing" target="_blank" class="btn-primary" style="display:inline-flex;">View / Download Full Calendar →</a>
       </div>
     </div>
   </div></div>
@@ -1105,6 +1137,106 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const el = document.getElementById(pages[key]);
     if (el) { el.classList.add('active'); window.scrollTo({ top:0, behavior:'instant' }); setTimeout(initReveal, 80); }
+    if (key === 'calendar') loadLiveCalendar();
+  }
+
+  /* ── LIVE CALENDAR — synced live from the studio's Google Sheet ── */
+  const LIVE_CAL_SHEET_ID = '1XU4htWR0XukO0CmONdNw7p7Bd6pty0ujpubkua6Cmr8';
+  const LIVE_CAL_VIEW_URL = 'https://docs.google.com/spreadsheets/u/7/d/1XU4htWR0XukO0CmONdNw7p7Bd6pty0ujpubkua6Cmr8/edit?usp=sharing';
+
+  function parseLiveCalCSV(text) {
+    const rows = []; let row = []; let field = ''; let inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+        else field += c;
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\r') { /* skip */ }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else field += c;
+      }
+    }
+    if (field.length || row.length) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function liveCalEscape(s) {
+    const d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+  }
+
+  function liveCalCategorize(text) {
+    const t = text.toUpperCase();
+    if (t.includes('RECITAL')) return 'var(--accent-light)';
+    if (t.includes('SEMESTER BEGIN') || t.includes('SESSION BEGIN') || t.includes('CLASSES BEGIN')) return 'var(--accent-text)';
+    if (t.includes('GROUP CLASS')) return 'var(--accent)';
+    if (t.includes('SNOW DAY') || t.includes('MAKEUP')) return 'var(--muted)';
+    if (t.includes('BREAK') || t.includes('CLOSED') || t.includes('HOLIDAY') || t.includes('DAY')) return 'var(--border)';
+    return 'var(--muted)';
+  }
+
+  function renderLiveCalendar(events) {
+    const body = document.getElementById('liveCalBody');
+    const groups = [];
+    events.forEach(ev => {
+      let g = groups.find(x => x.month === ev.month);
+      if (!g) { g = { month: ev.month, items: [] }; groups.push(g); }
+      g.items.push(ev);
+    });
+    body.innerHTML = groups.map(g => `
+      <div class="live-cal-month rv">
+        <div class="live-cal-month-label">${liveCalEscape(g.month)}</div>
+        ${g.items.map(ev => `
+          <div class="live-cal-event">
+            <div class="live-cal-tag" style="background:${liveCalCategorize(ev.text)};"></div>
+            <div class="live-cal-desc">${liveCalEscape(ev.text)}</div>
+          </div>`).join('')}
+      </div>
+    `).join('');
+    initReveal();
+  }
+
+  let liveCalLoaded = false;
+  async function loadLiveCalendar() {
+    if (liveCalLoaded) return;
+    liveCalLoaded = true;
+    const statusEl = document.getElementById('liveCalStatus');
+    const bodyEl = document.getElementById('liveCalBody');
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${LIVE_CAL_SHEET_ID}/gviz/tq?tqx=out:csv&_=${Date.now()}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('sheet fetch failed');
+      const rows = parseLiveCalCSV(await res.text());
+
+      let headerRow = -1, col = -1;
+      for (let r = 0; r < rows.length; r++) {
+        const c = rows[r].findIndex(cell => (cell || '').trim().toUpperCase() === 'DATES AT A GLANCE');
+        if (c !== -1) { headerRow = r; col = c; break; }
+      }
+      if (headerRow === -1) throw new Error('column not found');
+
+      const LEGEND = new Set(['STUDIO CLOSED','GROUP CLASS (NO PRIVATE CLASS THIS WEEK)','MAKEUP LESSONS ONLY','RECITAL','SEMESTER BEGINS','SNOW DAY','TBA']);
+      let currentMonth = '';
+      const events = [];
+      for (let r = headerRow + 1; r < rows.length; r++) {
+        const month = (rows[r][col] || '').trim();
+        const text = (rows[r][col + 1] || '').trim();
+        if (!text || LEGEND.has(text.toUpperCase())) continue;
+        if (month) currentMonth = month;
+        events.push({ month: currentMonth || 'Upcoming', text });
+      }
+      if (!events.length) throw new Error('no events parsed');
+
+      renderLiveCalendar(events);
+      const stamp = new Date().toLocaleString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+      statusEl.innerHTML = `<span class="live-dot"></span> Synced live · updated ${stamp}`;
+    } catch (err) {
+      liveCalLoaded = false;
+      bodyEl.innerHTML = `<div class="live-cal-error">Live sync is temporarily unavailable. <a href="${LIVE_CAL_VIEW_URL}" target="_blank">View the full calendar directly →</a></div>`;
+      statusEl.textContent = '';
+    }
   }
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), { passive:true });
