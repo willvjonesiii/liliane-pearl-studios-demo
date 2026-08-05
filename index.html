@@ -316,7 +316,7 @@
     .live-cal-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
     .live-cal-loading, .live-cal-error { text-align: center; color: var(--muted); padding: 3.5rem 1rem; font-size: 0.9rem; }
     .live-cal-error a { color: var(--accent-text); }
-    .live-cal-foot { margin-top: 2rem; text-align: center; }
+    .live-cal-head { margin-bottom: 2rem; }
 
     /* ── RESOURCE CARDS ── */
     .res-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 1.5rem; }
@@ -793,8 +793,11 @@
     </div>
     <div class="live-cal rv">
       <div class="live-cal-top">
-        <span class="live-cal-title">Key Dates This Year</span>
+        <span class="live-cal-title">Key Dates This Year — 2026–2027</span>
         <span class="live-cal-status" id="liveCalStatus"><span class="live-dot"></span> Syncing with studio calendar…</span>
+      </div>
+      <div class="live-cal-head">
+        <a href="https://docs.google.com/spreadsheets/u/7/d/1XU4htWR0XukO0CmONdNw7p7Bd6pty0ujpubkua6Cmr8/edit?usp=sharing" target="_blank" class="btn-primary" style="display:inline-flex;">View / Download Full Calendar →</a>
       </div>
       <div class="live-cal-body" id="liveCalBody">
         <div class="live-cal-loading">Loading the latest dates…</div>
@@ -805,9 +808,6 @@
         <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--accent-light);"></span>Recital</span>
         <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--border);"></span>Closure / Break</span>
         <span class="live-cal-legend-item"><span class="live-cal-legend-dot" style="background:var(--muted);"></span>Snow Day / Makeup</span>
-      </div>
-      <div class="live-cal-foot">
-        <a href="https://docs.google.com/spreadsheets/u/7/d/1XU4htWR0XukO0CmONdNw7p7Bd6pty0ujpubkua6Cmr8/edit?usp=sharing" target="_blank" class="btn-primary" style="display:inline-flex;">View / Download Full Calendar →</a>
       </div>
     </div>
   </div></div>
