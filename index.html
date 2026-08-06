@@ -391,6 +391,9 @@
     .reg-plan-card p { color: var(--muted); font-size: 0.82rem; margin: 0; }
     .reg-amount-due { border: 1px solid var(--accent-text); background: var(--card); padding: 1.5rem; text-align: center; margin: 1.5rem 0; }
     .reg-amount-due .amt { font-family: 'Merriweather', serif; font-size: 2.2rem; color: var(--accent-text); }
+    .reg-fee-breakdown { max-width: 320px; margin: 0 auto; text-align: left; }
+    .reg-fee-row { display: flex; justify-content: space-between; padding: 0.35rem 0; font-size: 0.88rem; color: var(--muted); }
+    .reg-fee-row.total { border-top: 1px solid var(--border); margin-top: 0.35rem; padding-top: 0.6rem; font-family: 'Merriweather', serif; font-size: 1.5rem; color: var(--accent-text); }
     #reg-card-element { border: 1px solid var(--border); background: var(--white); padding: 1rem; margin-top: 0.5rem; }
     .reg-error { color: #a03030; font-size: 0.85rem; margin-top: 0.6rem; }
     .reg-success { text-align: center; padding: 3rem 1rem; }
@@ -874,10 +877,14 @@
         </div>
       </div>
       <div class="reg-amount-due">
-        <p class="eyebrow" style="margin-bottom:0.5rem;">Due Today</p>
-        <div class="amt" id="reg-amount-today">$2,395</div>
+        <p class="eyebrow" style="margin-bottom:0.75rem;">Due Today</p>
+        <div class="reg-fee-breakdown">
+          <div class="reg-fee-row"><span>Subtotal</span><span id="reg-fee-subtotal">$2,395.00</span></div>
+          <div class="reg-fee-row"><span>Convenience Fee (3%)</span><span id="reg-fee-amount">$71.85</span></div>
+          <div class="reg-fee-row total"><span>Total</span><span id="reg-amount-today">$2,466.85</span></div>
+        </div>
       </div>
-      <p style="text-align:center;color:var(--muted);font-size:0.82rem;">Payment methods: Credit/Debit card (3% fee, payable here). Need ACH transfer or Zelle instead? <a onclick="go('tuition')">See all payment options</a> or contact the studio directly.</p>
+      <p style="text-align:center;color:var(--muted);font-size:0.82rem;">Amount above reflects card payment (3% convenience fee included). ACH bank transfer is fee-free — you'll choose your payment method at checkout. Need Zelle instead? <a onclick="go('tuition')">See all payment options</a> or contact the studio directly.</p>
       <button class="btn-primary" onclick="regGoStep('choice')" style="display:flex;margin:1rem auto 0;">Continue &nbsp;→</button>
     </div>
 
@@ -969,6 +976,17 @@
         <p class="eyebrow">Secure Payment</p>
         <h3>Pay <span id="reg-pay-amount">$2,395</span></h3>
         <p>Processed securely for <strong id="reg-pay-family-name">your family</strong>.</p>
+        <div class="reg-field">
+          <label>Payment Method</label>
+          <div class="reg-toggle" id="reg-paymethod-toggle">
+            <button type="button" class="active" data-method="card" onclick="regSetPayMethod('card')">Card (3% fee)</button>
+            <button type="button" data-method="ach" onclick="regSetPayMethod('ach')">ACH Bank Transfer (no fee)</button>
+          </div>
+        </div>
+        <div class="reg-fee-breakdown" style="margin:1rem 0 0;">
+          <div class="reg-fee-row"><span>Subtotal</span><span id="reg-pay-subtotal">$2,395.00</span></div>
+          <div class="reg-fee-row" id="reg-pay-fee-row"><span>Convenience Fee (3%)</span><span id="reg-pay-fee">$71.85</span></div>
+        </div>
         <div class="reg-field" style="margin-top:1.5rem;">
           <label>Payment Details</label>
           <div id="reg-card-element"></div>
@@ -1276,6 +1294,7 @@
   let regStudentType = 'Child';
   let regLength = '30';
   let regPlan = 'full';
+  let regPaymentMethod = 'card'; // 'card' | 'ach' — chosen at the pay step, before the PaymentIntent is created
   let regSearchTimeout = null;
 
   const PLAN_LABELS = { full: 'Annual', three: 'Three-Payment' };
@@ -1291,19 +1310,51 @@
     if (target) target.classList.add('active');
     if (step === 'plan') regUpdateAmounts();
     if (step === 'pay') {
-      document.getElementById('reg-pay-amount').textContent = regFormatAmount(regAmountDue());
+      regPaymentMethod = 'card'; // default selection each time this step is entered
+      document.querySelectorAll('#reg-paymethod-toggle button').forEach(b => b.classList.toggle('active', b.dataset.method === 'card'));
+      regUpdatePayAmounts();
       document.getElementById('reg-pay-family-name').textContent = regFamilyName || 'your family';
       regPreparePayment();
     }
   };
 
+  window.regSetPayMethod = function(method) {
+    if (regPaymentMethod === method) return;
+    regPaymentMethod = method;
+    document.querySelectorAll('#reg-paymethod-toggle button').forEach(b => b.classList.toggle('active', b.dataset.method === method));
+    regUpdatePayAmounts();
+    regPreparePayment(); // re-create the PaymentIntent for the newly selected method/amount
+  };
+
+  function regUpdatePayAmounts() {
+    const isCard = regPaymentMethod === 'card';
+    document.getElementById('reg-pay-amount').textContent = regFormatMoney(isCard ? regTotalDue() : regAmountDue());
+    document.getElementById('reg-pay-subtotal').textContent = regFormatMoney(regAmountDue());
+    document.getElementById('reg-pay-fee').textContent = regFormatMoney(regFeeAmount());
+    document.getElementById('reg-pay-fee-row').style.display = isCard ? 'flex' : 'none';
+  }
+
   function regFormatAmount(n) {
     return '$' + n.toLocaleString('en-US');
+  }
+
+  function regFormatMoney(n) {
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
   function regAmountDue() {
     return PRICES[regLength][regPlan];
   }
+
+  // Card convenience fee — mirrors the flat 3% MyMusicStaff's own Stripe
+  // integration applies to every card payment (credit or debit alike). Math
+  // done in integer cents to avoid float rounding drift.
+  const REG_CARD_FEE_RATE = 0.03;
+  function regSubtotalCents() { return Math.round(regAmountDue() * 100); }
+  function regFeeCents() { return Math.round(regSubtotalCents() * REG_CARD_FEE_RATE); }
+  function regTotalCents() { return regSubtotalCents() + regFeeCents(); }
+  function regFeeAmount() { return regFeeCents() / 100; }
+  function regTotalDue() { return regTotalCents() / 100; }
 
   window.regSetStudentType = function(type) {
     regStudentType = type;
@@ -1326,7 +1377,9 @@
   function regUpdateAmounts() {
     document.getElementById('reg-plan-full-price').textContent = regFormatAmount(PRICES[regLength].full);
     document.getElementById('reg-plan-three-price').textContent = regFormatAmount(PRICES[regLength].three);
-    document.getElementById('reg-amount-today').textContent = regFormatAmount(regAmountDue());
+    document.getElementById('reg-fee-subtotal').textContent = regFormatMoney(regAmountDue());
+    document.getElementById('reg-fee-amount').textContent = regFormatMoney(regFeeAmount());
+    document.getElementById('reg-amount-today').textContent = regFormatMoney(regTotalDue());
   }
 
   // ── Family search (returning families) ──
@@ -1471,9 +1524,10 @@
   };
 
   // ── Payment ──
-  // Fetches a fresh PaymentIntent as soon as the pay step is reached (all data
-  // needed is already known at that point) and mounts the Payment Element so
-  // Stripe can offer whatever's enabled on the account — card, ACH, etc.
+  // Fetches a fresh PaymentIntent scoped to the currently-selected payment
+  // method (regPaymentMethod) and mounts the Payment Element for it. Re-run
+  // whenever the method toggle changes, since the amount (fee or no fee) and
+  // the intent itself are both method-specific.
   async function regPreparePayment() {
     const errEl = document.getElementById('reg-pay-error');
     const btn = document.getElementById('reg-pay-submit');
@@ -1501,6 +1555,7 @@
           amount: regAmountDue(), familyId: regFamilyId, familyName: regFamilyName,
           studentId: regStudentId, studentName: regStudentName,
           lessonLength: regLength, planLabel: PLAN_LABELS[regPlan],
+          paymentMethod: regPaymentMethod, // 'card' | 'ach' — server derives the real subtotal itself and adds the 3% card fee only for 'card'
           customerEmail: regParentEmail || undefined,
         }),
       });
